@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#05264d">
+  <meta name="description" content="Owner login for Optical Shop Software.">
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <title>Owner Login - Optical Shop Software</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="login-body">
+  <main class="login-page">
+    <section class="login-card">
+      <div class="login-logo" aria-hidden="true">
+        <img src="logo.png" alt="">
+      </div>
+
+      <div id="loginPanel">
+        <h1>Owner Login</h1>
+        <p>Email ya mobile number aur password se login karein.</p>
+
+        <label>
+          Email / Mobile Number
+          <input id="loginIdentifier" type="text" placeholder="owner@example.com or 9876543210" autocomplete="username">
+        </label>
+
+        <label>
+          Password
+          <input id="loginPassword" type="password" placeholder="Password" autocomplete="current-password">
+        </label>
+
+        <button class="btn btn-primary login-btn" type="button" onclick="loginOwner()">Login</button>
+        <button id="installAppBtn" class="btn btn-install login-btn" type="button">Install App</button>
+
+        <div class="login-links">
+          <button type="button" onclick="showAuthPanel('registerPanel')">Create owner account</button>
+          <button type="button" onclick="showAuthPanel('forgotPanel')">Forgot password?</button>
+        </div>
+      </div>
+
+      <div id="registerPanel" class="auth-panel">
+        <h1>Create Account</h1>
+        <p>Pehli baar owner email, mobile number aur password set karein.</p>
+
+        <label>
+          Email Address
+          <input id="registerEmail" type="email" placeholder="owner@example.com" autocomplete="email">
+        </label>
+
+        <label>
+          Mobile Number
+          <input id="registerMobile" type="tel" placeholder="9876543210" autocomplete="tel">
+        </label>
+
+        <label>
+          Password
+          <input id="registerPassword" type="password" placeholder="Create password" autocomplete="new-password">
+        </label>
+
+        <button class="btn btn-primary login-btn" type="button" onclick="registerOwner()">Create & Continue</button>
+
+        <div class="login-links">
+          <button type="button" onclick="showAuthPanel('loginPanel')">Back to login</button>
+        </div>
+      </div>
+
+      <div id="forgotPanel" class="auth-panel">
+        <h1>Reset Password</h1>
+        <p>Registered email ya mobile number enter karein. Reset link email par bheja jayega.</p>
+
+        <label>
+          Email / Mobile Number
+          <input id="resetIdentifier" type="text" placeholder="Registered email or mobile">
+        </label>
+
+        <button class="btn btn-primary login-btn" type="button" onclick="sendResetOtp()">Send Reset Link</button>
+
+        <div class="login-links">
+          <button type="button" onclick="showAuthPanel('loginPanel')">Back to login</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script type="module" src="script.js"></script>
+</body>
+</html>

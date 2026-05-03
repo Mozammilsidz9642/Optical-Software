@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#05264d">
+  <meta name="description" content="Optical shop prescription and customer records app.">
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <title>Optical Shop Software</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="brand-block">
+        <div class="brand-logo" aria-hidden="true">
+          <img src="logo.png" alt="">
+        </div>
+        <div>
+          <h1>Optical Shop</h1>
+          <p>Software</p>
+        </div>
+      </div>
+
+      <nav class="side-nav" aria-label="Main">
+        <a class="active" href="#prescription" data-view="prescription"><span>+</span> New Prescription</a>
+        <a href="#records" data-view="records"><span>#</span> All Records</a>
+        <a href="#settings" data-view="settings"><span>*</span> Settings</a>
+        <a href="#about" data-view="about"><span>i</span> About Us</a>
+      </nav>
+    </aside>
+    <button class="sidebar-backdrop" type="button" onclick="closeSidebar()" aria-label="Close sidebar"></button>
+
+    <main class="main-panel">
+      <section class="topbar">
+        <div class="page-title">
+          <button class="sidebar-toggle" type="button" onclick="toggleSidebar()" aria-label="Open sidebar">&#9776;</button>
+          <span class="title-icon">+</span>
+          <h2 id="pageTitle">New Prescription</h2>
+        </div>
+
+        <div class="top-actions">
+          <button id="installAppBtn" class="btn btn-install" type="button">Install</button>
+          <button class="btn btn-print" type="button" onclick="printCurrent()">Print</button>
+          <button class="btn btn-pdf" type="button" onclick="pdfCurrent()">Download PDF</button>
+        </div>
+      </section>
+
+      <section id="settings" class="panel view-panel setup-panel">
+        <div class="panel-heading">
+          <h3>Shop Settings</h3>
+          <p>Yahi details print aur PDF ke header me aayengi.</p>
+        </div>
+
+        <div class="form-grid settings-grid">
+          <label>
+            Shop Name
+            <input id="shopName" placeholder="Brand Optical">
+          </label>
+          <label>
+            Shop Mobile
+            <input id="shopMobile" placeholder="9315987700">
+          </label>
+          <label>
+            Shop Address
+            <input id="shopAddress" placeholder="Shaheen Bhag, New Delhi">
+          </label>
+          <label>
+            Owner Login
+            <input id="ownerLoginDisplay" disabled>
+          </label>
+        </div>
+
+        <div class="form-actions">
+          <button class="btn btn-primary" type="button" onclick="saveSettings()">Save Settings</button>
+          <button class="btn btn-delete" type="button" onclick="logoutOwner()">Log Out</button>
+        </div>
+      </section>
+
+      <section id="prescription" class="panel view-panel active">
+        <div class="form-grid">
+          <label>
+            Customer Name *
+            <input id="name" placeholder="Doctorsthefamily">
+          </label>
+          <label>
+            Mobile
+            <input id="mobile" placeholder="8544528662">
+          </label>
+          <label>
+            Date
+            <input id="date" type="date">
+          </label>
+          <label class="wide">
+            Address
+            <input id="address" placeholder="sukhdev Vihar">
+          </label>
+          <label>
+            Price (Rs)
+            <input id="price" type="number" min="0" placeholder="1000">
+          </label>
+        </div>
+
+        <div class="table-wrap prescription-wrap">
+          <table class="rx-table">
+            <thead>
+              <tr>
+                <th>EYE</th>
+                <th>SPH</th>
+                <th>CYL</th>
+                <th>AXIS</th>
+                <th>VISION</th>
+                <th>ADD</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>O.D (Right)</td>
+                <td><input id="od_sph" placeholder="0.2"></td>
+                <td><input id="od_cyl" placeholder="0.3"></td>
+                <td><input id="od_axis" placeholder="-"></td>
+                <td><input id="od_vision" placeholder="6/6"></td>
+                <td><input id="od_add" placeholder="+1.00"></td>
+              </tr>
+              <tr>
+                <td>O.S (Left)</td>
+                <td><input id="os_sph" placeholder="0.2"></td>
+                <td><input id="os_cyl" placeholder="0.25"></td>
+                <td><input id="os_axis" placeholder="-"></td>
+                <td><input id="os_vision" placeholder="6/6"></td>
+                <td><input id="os_add" placeholder="+1.00"></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <label class="note-field">
+          Note
+          <textarea id="note" placeholder="Any special note..."></textarea>
+        </label>
+
+        <div class="form-actions">
+          <button class="btn btn-primary" type="button" onclick="saveData()">Save Prescription</button>
+          <button class="btn btn-light" type="button" onclick="clearForm()">Clear</button>
+        </div>
+      </section>
+
+      <section id="records" class="panel view-panel records-panel">
+        <input id="search" placeholder="Search by name, mobile..." oninput="searchData()">
+
+        <div class="table-wrap">
+          <table class="records-table">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Mobile</th>
+                <th>Date</th>
+                <th>Price</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="recordsTable"></tbody>
+          </table>
+        </div>
+
+        <p id="recordCount" class="record-count">Showing 0 records</p>
+      </section>
+
+      <section id="about" class="panel view-panel about-panel">
+        <strong>Better Vision Today, Brighter Tomorrow.</strong>
+      </section>
+    </main>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <script type="module" src="script.js"></script>
+</body>
+</html>
